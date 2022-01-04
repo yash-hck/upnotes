@@ -7,10 +7,10 @@ const Navbar = () => {
     console.log(location.pathname);
   }, [location]);
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg hinged navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to="#">
-          Navbar
+          Upnotes
         </Link>
         <button
           className="navbar-toggler"
@@ -48,15 +48,12 @@ const Navbar = () => {
             </li>
           </ul>
           <form className="d-flex">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
+            <Link to="/login" className="btn btn-primary mx-2" role="button">
+              Login
+            </Link>
+            <Link to="/signup" className="btn btn-primary mx-2" role="button">
+              SignUp
+            </Link>
           </form>
         </div>
       </div>

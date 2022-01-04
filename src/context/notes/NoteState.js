@@ -32,20 +32,11 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header
     });
-    const json = response.json(); // parses JSON response into native JavaScript objects
+    const json = await response.json(); // parses JSON response into native JavaScript objects
 
     if (response.status === 200) {
-      const not = {
-        _id: "61bdab23599f515167445e10",
-        user: "61baf0d52e469758b5ff8cec",
-        title: title,
-        description: description,
-        tag: tag,
-        date: "2021-12-18T09:34:27.163Z",
-        __v: 0,
-      };
-
-      setNotes(notes.concat(not));
+      const note = json;
+      setNotes(notes.concat(note));
     }
   };
 
@@ -76,7 +67,7 @@ const NoteState = (props) => {
   const editNote = async (id, title, description, tag) => {
     // Default options are marked with *
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      method: "PUT", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",
         "auth-token":
@@ -84,18 +75,20 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header
     });
-    const json = response.json(); // parses JSON response into native JavaScript objects
+    const json = await response.json(); // parses JSON response into native JavaScript objects
 
     // Logic to edit note in client side
-
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
-      if (element.id === id) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+    let newNotes = JSON.parse(JSON.stringify(notes));
+    for (let index = 0; index < newNotes.length; index++) {
+      const element = newNotes[index];
+      if (element._id === id) {
+        newNotes[index].title = title;
+        newNotes[index].description = description;
+        newNotes[index].tag = tag;
+        break;
       }
     }
+    setNotes(newNotes);
   };
 
   return (

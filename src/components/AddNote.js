@@ -10,6 +10,7 @@ const AddNote = () => {
   const handleClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
+    setNote({ title: "", description: "", tag: "" });
   };
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
@@ -25,22 +26,21 @@ const AddNote = () => {
           </label>
           <input
             type="text"
+            value={note.title}
             className="form-control"
             id="title"
             name="title"
             aria-describedby="emailHelp"
             onChange={onChange}
           />
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
-          </div>
         </div>
         <div className="mb-3">
           <label htmlFor="description" className="form-label">
-            Password
+            Description
           </label>
           <input
             type="text"
+            value={note.description}
             name="description"
             className="form-control"
             id="description"
@@ -53,13 +53,19 @@ const AddNote = () => {
           </label>
           <input
             type="text"
+            value={note.tag}
             name="tag"
             className="form-control"
             id="tag"
             onChange={onChange}
           />
         </div>
-        <button type="submit" onClick={handleClick} className="btn btn-primary">
+        <button
+          type="submit"
+          disabled={note.title.length < 5 || note.description.length < 5}
+          onClick={handleClick}
+          className="btn btn-primary"
+        >
           Submit
         </button>
       </form>
