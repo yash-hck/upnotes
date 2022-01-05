@@ -6,6 +6,11 @@ const Navbar = () => {
   useEffect(() => {
     console.log(location.pathname);
   }, [location]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg hinged navbar-dark bg-dark">
       <div className="container-fluid">
@@ -47,14 +52,25 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <form className="d-flex">
-            <Link to="/login" className="btn btn-primary mx-2" role="button">
-              Login
+          {!localStorage.getItem("token") ? (
+            <form className="d-flex">
+              <Link to="/login" className="btn btn-primary mx-2" role="button">
+                Login
+              </Link>
+              <Link to="/signup" className="btn btn-primary mx-2" role="button">
+                SignUp
+              </Link>
+            </form>
+          ) : (
+            <Link
+              to="/login"
+              onClick={handleLogout}
+              className="btn btn-primary mx-2"
+              role="button"
+            >
+              Log Out
             </Link>
-            <Link to="/signup" className="btn btn-primary mx-2" role="button">
-              SignUp
-            </Link>
-          </form>
+          )}
         </div>
       </div>
     </nav>
